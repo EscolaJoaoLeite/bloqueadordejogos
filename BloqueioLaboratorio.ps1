@@ -47,7 +47,7 @@ $Dominios = @(
     "now.gg",
     "www.now.gg",
 
-    # Jogos diversos
+    # Outros sites de jogos
     "jogos360.com.br",
     "www.jogos360.com.br",
     "1001jogos.com.br",
@@ -72,24 +72,38 @@ $Dominios = @(
 
 Write-Host "Bloqueando sites..." -ForegroundColor Yellow
 
+# Ler conteúdo atual do arquivo hosts
+$ConteudoHosts = Get-Content $HostsFile -ErrorAction SilentlyContinue
+
 foreach ($Dominio in $Dominios) {
 
     $Linha = "127.0.0.1 $Dominio"
 
-    if (-not (Select-String -Path $HostsFile -Pattern [regex]::Escape($Dominio) -Quiet)) {
+    # Adicionar somente se ainda não existir
+    if ($ConteudoHosts -notcontains $Linha) {
         Add-Content -Path $HostsFile -Value $Linha
+        Write-Host "Bloqueado: $Dominio"
+    }
+    else {
+        Write-Host "Ja existe: $Dominio"
     }
 }
 
 # Limpar cache DNS
-ipconfig /flushdns
+Write-Host "Atualizando cache DNS..." -ForegroundColor Yellow
+ipconfig /flushdns | Out-Null
 
 Write-Host "Sites bloqueados com sucesso." -ForegroundColor Green
 
-# Desativar Microsoft Store via Registro
+# =====================================================
+# DESATIVAR MICROSOFT STORE
+# =====================================================
+
 Write-Host "Desativando Microsoft Store..." -ForegroundColor Yellow
 
-New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Force | Out-Null
+New-Item `
+    -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" `
+    -Force | Out-Null
 
 Set-ItemProperty `
     -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" `
@@ -97,22 +111,13 @@ Set-ItemProperty `
     -Type DWord `
     -Value 1
 
-# Bloquear executável da Store no Firewall
-$StorePath = "C:\Program Files\WindowsApps"
-
-if (-not (Get-NetFirewallRule -DisplayName "Bloquear Microsoft Store" -ErrorAction SilentlyContinue)) {
-
-    New-NetFirewallRule `
-        -DisplayName "Bloquear Microsoft Store" `
-        -Direction Outbound `
-        -Action Block `
-        -Program "$StorePath\Microsoft.WindowsStore*\WinStore.App.exe" `
-        -Profile Any | Out-Null
-}
-
 Write-Host "Microsoft Store desativada." -ForegroundColor Green
 
-# Atualizar políticas locais
+# =====================================================
+# ATUALIZAR POLITICAS
+# =====================================================
+
+Write-Host "Atualizando politica..." -ForegroundColor Yellow
 gpupdate /force
 
 Write-Host ""
