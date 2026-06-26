@@ -19,55 +19,93 @@ Write-Host "Iniciando configuracao..." -ForegroundColor Green
 $HostsFile = "$env:SystemRoot\System32\drivers\etc\hosts"
 
 # Lista de domínios a bloquear
+# Lista ampliada de domínios
 $Dominios = @(
 
-    # Roblox
-    "roblox.com",
-    "www.roblox.com",
-    "web.roblox.com",
-    "create.roblox.com",
+# Roblox
+"roblox.com","www.roblox.com","web.roblox.com","create.roblox.com",
 
-    # Poki
-    "poki.com",
-    "www.poki.com",
+# Principais portais de jogos
+"poki.com","www.poki.com",
+"crazygames.com","www.crazygames.com",
+"friv.com","www.friv.com",
+"clickjogos.com.br","www.clickjogos.com.br",
+"ojogos.com.br","www.ojogos.com.br",
+"1001jogos.com.br","www.1001jogos.com.br",
+"jogos360.com.br","www.jogos360.com.br",
+"minijogos.com.br","www.minijogos.com.br",
+"y8.com","www.y8.com",
+"agame.com","www.agame.com",
+"gamesgames.com","www.gamesgames.com",
+"kizi.com","www.kizi.com",
+"miniclip.com","www.miniclip.com",
+"gamepix.com","www.gamepix.com",
+"pacogames.com","www.pacogames.com",
+"armorgames.com","www.armorgames.com",
+"kongregate.com","www.kongregate.com",
+"addictinggames.com","www.addictinggames.com",
+"freeonlinegames.com","www.freeonlinegames.com",
+"girlsgogames.com","www.girlsgogames.com",
+"silvergames.com","www.silvergames.com",
+"lagged.com","www.lagged.com",
+"a10.com","www.a10.com",
+"fliperama.com.br","www.fliperama.com.br",
+"jogalo.com","www.jogalo.com",
+"jogos.com.br","www.jogos.com.br",
 
-    # Click Jogos
-    "clickjogos.com.br",
-    "www.clickjogos.com.br",
+# Jogos .io
+"slither.io","www.slither.io",
+"agar.io","www.agar.io",
+"diep.io","www.diep.io",
+"moomoo.io","www.moomoo.io",
+"krunker.io","www.krunker.io",
+"surviv.io","www.surviv.io",
+"shellshock.io","www.shellshock.io",
+"paper-io.com","www.paper-io.com",
+"paper-io.co","www.paper-io.co",
 
-    # CrazyGames
-    "crazygames.com",
-    "www.crazygames.com",
+# Jogos em nuvem e emuladores
+"now.gg","www.now.gg",
+"cloudbase.gg","www.cloudbase.gg",
+"boosteroid.com","www.boosteroid.com",
+"geforcenow.com","www.geforcenow.com",
+"gaming.microsoft.com",
+"xbox.com","www.xbox.com",
+"account.xbox.com",
 
-    # Friv
-    "friv.com",
-    "www.friv.com",
+# Plataformas de jogos
+"store.steampowered.com",
+"steampowered.com",
+"epicgames.com","www.epicgames.com",
+"store.epicgames.com",
 
-    # Now.gg
-    "now.gg",
-    "www.now.gg",
+# Downloads de APK
+"apkpure.com","www.apkpure.com",
+"apkcombo.com","www.apkcombo.com",
+"uptodown.com","www.uptodown.com",
 
-    # Outros sites de jogos
-    "jogos360.com.br",
-    "www.jogos360.com.br",
-    "1001jogos.com.br",
-    "www.1001jogos.com.br",
-    "pacogames.com",
-    "www.pacogames.com",
-    "gamepix.com",
-    "www.gamepix.com",
-    "minijogos.com.br",
-    "www.minijogos.com.br",
-    "y8.com",
-    "www.y8.com",
-    "kongregate.com",
-    "www.kongregate.com",
-    "armorgames.com",
-    "www.armorgames.com",
-    "agame.com",
-    "www.agame.com",
-    "jogostodos.com.br",
-    "www.jogostodos.com.br"
+# Proxies e desbloqueadores
+"croxyproxy.com","www.croxyproxy.com",
+"proxysite.com","www.proxysite.com",
+"kproxy.com","www.kproxy.com",
+"hide.me","www.hide.me",
+"hidemyass.com","www.hidemyass.com",
+
+# VPNs populares
+"psiphon.ca","www.psiphon.ca",
+"protonvpn.com","www.protonvpn.com",
+"windscribe.com","www.windscribe.com",
+"hotspotshield.com","www.hotspotshield.com",
+"betternet.co","www.betternet.co",
+"tunnelbear.com","www.tunnelbear.com",
+"expressvpn.com","www.expressvpn.com",
+"nordvpn.com","www.nordvpn.com",
+"surfshark.com","www.surfshark.com",
+
+# Jogos educativos que podem ser usados indevidamente
+"coolmathgames.com","www.coolmathgames.com",
+"mathplayground.com","www.mathplayground.com",
+"hoodamath.com","www.hoodamath.com"
 )
 
 Write-Host "Bloqueando sites..." -ForegroundColor Yellow
